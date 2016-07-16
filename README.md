@@ -41,7 +41,7 @@ print(stations)             # [<Contract - Rouen>,
                             # <Contract - Toulouse>,
                             # ...
 
-# Get a specific contract:
+# Get a specific contract:  
 
 dublin_contract = jcd.get_contract('Dublin')
 
