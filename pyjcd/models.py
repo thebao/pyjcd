@@ -17,6 +17,9 @@ class Contract(object):
     def get_station_list(self):
         return self.interface.get_station_list(self)
 
+    def get_station_detail(self, station):
+        return self.interface.get_station_details(self, station)
+
     def __repr__(self):
         return '<%s - %s>' % (self.__class__.__name__, self.name)
 

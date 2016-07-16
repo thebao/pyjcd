@@ -39,6 +39,11 @@ class JCDecauxInterface(object):
         contracts = [parser.parse_JSON(json.dumps(item), self) for item in d]
         return contracts
 
+    def get_contract(self, contract_name, data_type='object'):
+        contracts = self.get_contract_list()
+
+        return next((x for x in contracts if x.name == contract_name), None)
+
     def get_station_list(self, contract=None, data_type='object'):
         if contract is None:
             response = self.client.call_API(API_STATION_LIST_URL, {})
@@ -53,9 +58,13 @@ class JCDecauxInterface(object):
         parser = parsers.StationParser()
         return [parser.parse_JSON(json.dumps(item)) for item in d]
 
-    def get_station_details(self, station, contract, data_type='object'):
+    def get_station_details(self, contract, station, data_type='object'):
+        try:
+            pk = station.number
+        except AttributeError:
+            pk = station
         response = self.client.call_API(API_STATION_DETAIL_URL \
-            % station.number, {'contract': contract.name})
+            % pk, {'contract': contract.name})
 
         if data_type == 'json':
             return response

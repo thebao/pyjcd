@@ -46,6 +46,13 @@ class PyJCDTestInterface(unittest.TestCase):
 
         self.assertIn("Paris", names)
 
+    def test_can_get_specific_contract(self):
+        interface = JCDecauxInterface()
+        contract = interface.get_contract('Valence')
+
+        self.assertEqual("Valence", contract.name)
+
+
     def test_can_get_station_list(self):
         interface = JCDecauxInterface()
         stations = interface.get_station_list()
@@ -70,18 +77,14 @@ class PyJCDTestInterface(unittest.TestCase):
 
         self.assertIn("00069 - FEUGA", names)
 
-    def test_can_get_station_detail_for_contract(self):
+    def test_can_get_station_detail_for_contract_by_number(self):
         interface = JCDecauxInterface()
 
-        contract = interface.get_contract_list()[2]
+        contract = interface.get_contract("Toulouse")
         self.assertEqual(contract.name, "Toulouse")
 
-        stations = interface.get_station_list(contract=contract)
-
-        s = [x for x in stations if x.number == 69][0]
-
-        station = interface.get_station_details(contract=contract, station=s)
-
+        station = contract.get_station_detail(69)
+        
         self.assertEqual("00069 - FEUGA", station.name)
 
     def test_can_get_station_list_as_json(self):
